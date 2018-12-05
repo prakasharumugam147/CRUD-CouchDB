@@ -79,6 +79,7 @@ app.post('/feedback',(req,res)=>{
         },
         comment:req.body.comment,
         recommendation:req.body.recommendation,
+        interviewdate:req.body.interviewdate,
         status:req.body.status
         }).then(
             (data,headers,status)=>{
