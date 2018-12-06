@@ -1,6 +1,8 @@
 const express=require('express');
 const bodyParser=require('body-parser');
 const couchDB=require('node-couchdb');
+const session=require('express-session');
+const passport =require('passport');
 
 const app=express();
 
@@ -18,10 +20,10 @@ couch.listDatabases().then((dbs)=>{
 console.log(dbs);
 });
 
-const dbname='reviewsystem';
+const dataUrl='reviewsystem';
 const login='login';
-const loginurl='_design/login/_view/login';
 const feedbackdata="_design/login/_view/rv_feedback";
+const loginurl="_design/login/_view/logindetail";
 
 app.use((req, res, next)=> {
     res.header("Access-Control-Allow-Origin", "*");
@@ -30,10 +32,26 @@ app.use((req, res, next)=> {
   });
 
 app.get('/',(req,res)=>{
-    couch.get(dbname,feedbackdata).then((data,headers,status)=>{
+    couch.get(dataUrl,feedbackdata).then((data,headers,status)=>{
         res.send(data);
     },
     (err)=>{
+        res.send(err);
+    });
+});
+
+app.post('/login',(req,res)=>{
+    const employeeid=req.body.employeeid;
+    const password=req.body.password;
+    couch.get(login, loginurl).then(({data, headers, status}) => {
+        const user= data.rows.find((row)=>row.value.employeeid===employeeid);
+        console.log("user",user);
+        if(user){
+            (user.value.password===password) ? res.send({loginsuccess:true,name:user,state:user.value}):res.send({loginsuccess:false});
+        }else{
+            res.send({loginsuccess:false});
+        }
+    },(err)=>{
         res.send(err);
     });
 });
@@ -95,7 +113,7 @@ app.post('/feedback',(req,res)=>{
 app.delete('/customer/:id',(req,res)=>{
     const id=req.params.id;
     const rev=req.body.rev;
-    couch.del(dbname,id,rev).then(
+    couch.del(dataUrl,id,rev).then(
         (data,headers,status)=>{
             res.send('deleted succesfully');
         },
