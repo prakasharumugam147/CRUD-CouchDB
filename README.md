@@ -29,7 +29,7 @@ Create New Document named "reviewsystem" and "login"
   "status": "selected"
  }
 
- logindetail View
+ ##logindetail View
  {
    "_id": "_design/login",
    "_rev": "3-a21ec51d42920b7dc3c080f2a13a997a",
