@@ -16,9 +16,9 @@ const couch= new couchDB({
     }
 });
 
-couch.listDatabases().then((dbs)=>{
-console.log(dbs);
-});
+// couch.listDatabases().then((dbs)=>{
+// console.log(dbs);
+// });
 
 const dataUrl='reviewsystem';
 const login='login';
