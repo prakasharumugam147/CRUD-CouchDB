@@ -45,7 +45,6 @@ app.post('/login',(req,res)=>{
     const password=req.body.password;
     couch.get(login, loginurl).then(({data, headers, status}) => {
         const user= data.rows.find((row)=>row.value.employeeid===employeeid);
-        console.log("user",user);
         if(user){
             (user.value.password===password) ? res.send({loginsuccess:true,name:user,state:user.value}):res.send({loginsuccess:false});
         }else{
@@ -88,12 +87,53 @@ app.post('/feedback',(req,res)=>{
         position:req.body.position,
         spocname:req.body.spocname,
         rating:{
-            angular:req.body.rating.angular,
-            javascript:req.body.rating.javascript,
-            html:req.body.rating.html,
-            css:req.body.rating.css,
-            testingyool:req.body.rating.testingtool,
-            subversion:req.body.rating.subversion
+            html:{
+               forms:req.body.rating.html.forms,
+               newfeatures:req.body.rating.html.newfeatures,
+               graphics:req.body.rating.html.graphics,
+               htmlmedia:req.body.rating.html.htmlmedia,
+               geolocation:req.body.rating.html.geolocation,
+               cssconcepts:req.body.rating.html.cssconcepts
+            },
+            css:{
+             cssconcepts:req.body.rating.css.cssconcepts,
+             csssprites:req.body.rating.css.csssprites,
+             cssadvanced:req.body.rating.css.cssadvanced,
+             cssresponsive:req.body.rating.css.cssresponsive,
+             cssreference:req.body.rating.css.cssreference
+            },
+            javascript:{
+             jsbasicpart1:req.body.rating.javascript.jsbasicpart1,
+             jsbasicpart2:req.body.rating.javascript.jsbasicpart2,
+             jsbasicpart3:req.body.rating.javascript.jsbasicpart3,
+             jsdomevent:req.body.rating.javascript.jsdomevent,
+             jsbrowser:req.body.rating.javascript.jsbrowser,
+             jsjson:req.body.rating.javascript.jsjson
+            },
+            advancejs:{
+             advancejspart1:req.body.rating.advancejs.advancejspart1,
+             advancejspart2:req.body.rating.advancejs.advancejspart2,
+             advancejspart3:req.body.rating.advancejs.advancejspattern,
+             jsprototype:req.body.rating.advancejs.jsprototype
+            },
+            angularjs:{
+             angularpart1:req.body.rating.angularjs.angularpart1,
+             angularpart2:req.body.rating.angularjs.angularpart2,
+             angularpart3:req.body.rating.angularjs.angularpart3,
+             angularpart4:req.body.rating.angularjs.angularpart4,
+             angularadvance:req.body.rating.angularjs.angularadvance,
+             angulartesting:req.body.rating.angularjs.angulartesting
+            },
+            techcomp:{
+             techcomppattern:req.body.rating.techcomp.techcomppattern,
+             techcomptesting:req.body.rating.techcomp.techcomptesting,
+             techcompnfr:req.body.rating.techcomp.techcompnfr
+            },
+            processtools:{
+             buildtools:req.body.rating.processtools.buildtools,
+             sdlc:req.body.rating.processtools.sdlc,
+             repository:req.body.rating.processtools.repository
+            }
         },
         comment:req.body.comment,
         recommendation:req.body.recommendation,
@@ -110,19 +150,19 @@ app.post('/feedback',(req,res)=>{
     });
 });
 
-app.delete('/customer/:id',(req,res)=>{
-    const id=req.params.id;
-    const rev=req.body.rev;
-    couch.del(dataUrl,id,rev).then(
-        (data,headers,status)=>{
-            res.send('deleted succesfully');
-        },
-        (err)=>{
-            res.send(err);
-        }
-    )
-})
+// app.delete('/customer/:id',(req,res)=>{
+//     const id=req.params.id;
+//     const rev=req.body.rev;
+//     couch.del(dataUrl,id,rev).then(
+//         (data,headers,status)=>{
+//             res.send('deleted succesfully');
+//         },
+//         (err)=>{
+//             res.send(err);
+//         }
+//     )
+// })
 
-app.listen(3000,()=>{
-    console.log("serer listening to 3000");
+app.listen(4000,()=>{
+    console.log("server listening to 4000");
 })
